@@ -1,0 +1,1067 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background:
+        radial-gradient(circle at top, #17324d 0%, #0d1b2a 45%, #07111c 100%);
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+/* =========================================================
+   TITULO
+========================================================= */
+
+h1 {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    margin-bottom: 18px;
+    color: #d4af37;
+    letter-spacing: 3px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+
+.casino-table-container {
+    width: min(1100px, 100%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(27, 38, 59, .98),
+            rgba(13, 27, 42, .98)
+        );
+
+    border: 2px solid #74acdf;
+    border-radius: 20px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, .65),
+        inset 0 0 30px rgba(116, 172, 223, .04);
+}
+
+
+/* =========================================================
+   RULETA + TABLERO
+========================================================= */
+
+.casino-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   RULETA
+========================================================= */
+
+.wheel-container {
+    width: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+
+/* La ruleta */
+
+.roulette-wheel {
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+    border: 8px solid #d4af37;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle,
+            #162c42 0%,
+            #0d1b2a 65%,
+            #07111c 100%
+        );
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.55),
+        0 0 30px rgba(212,175,55,.12);
+
+    transition:
+        transform 4s cubic-bezier(0.15, 0.90, 0.15, 1.0);
+
+    flex-shrink: 0;
+}
+
+
+/* Centro */
+
+.wheel-center {
+    width: 70px;
+    height: 70px;
+
+    background: #0d1b2a;
+    border: 3px solid #74acdf;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: .85rem;
+
+    color: white;
+
+    z-index: 10;
+
+    box-shadow:
+        0 0 15px rgba(116,172,223,.25);
+}
+
+
+/* Números de la ruleta */
+
+.wheel-number {
+    position: absolute;
+
+    width: 24px;
+    height: 24px;
+
+    font-size: .6rem;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    user-select: none;
+}
+
+.wheel-number.green {
+    background: #2d6a4f;
+    color: white;
+}
+
+.wheel-number.celeste {
+    background: #74acdf;
+    color: #0d1b2a;
+}
+
+.wheel-number.blanco {
+    background: white;
+    color: #0d1b2a;
+}
+
+
+/* =========================================================
+   TABLERO
+========================================================= */
+
+.board-container {
+    width: 100%;
+    overflow-x: auto;
+
+    display: flex;
+    justify-content: center;
+
+    scrollbar-width: thin;
+    scrollbar-color: #74acdf #0d1b2a;
+}
+
+
+/*
+   IMPORTANTE:
+   Mantenemos las 14 columnas porque tu JS
+   trabaja con ellas.
+*/
+
+.board-grid {
+    display: grid;
+
+    grid-template-columns:
+        40px
+        repeat(12, 40px)
+        55px;
+
+    grid-template-rows:
+        repeat(3, 40px)
+        40px
+        40px;
+
+    gap: 3px;
+
+    position: relative;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   CELDAS
+========================================================= */
+
+.cell {
+    border: 1px solid rgba(116,172,223,.4);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: .8rem;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition:
+        filter .2s ease,
+        transform .15s ease;
+
+    background: #1b4332;
+
+    user-select: none;
+}
+
+.cell:hover {
+    filter: brightness(1.2);
+}
+
+.cell:active {
+    transform: scale(.96);
+}
+
+
+/* Colores */
+
+.cell.celeste {
+    background: #74acdf;
+    color: #0d1b2a;
+}
+
+.cell.blanco {
+    background: #f8f9fa;
+    color: #0d1b2a;
+}
+
+.cell.green {
+    background: #2d6a4f;
+    color: white;
+
+    grid-row: 1 / span 3;
+    grid-column: 1;
+}
+
+
+/* =========================================================
+   ETIQUETAS
+========================================================= */
+
+.cell.col-label,
+.cell.outside-label,
+.cell.dozen-label {
+
+    background: #112217;
+    color: #d4af37;
+
+    font-size: .7rem;
+
+    text-align: center;
+}
+
+.cell.dozen-label {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* =========================================================
+   OVERLAY DE APUESTAS
+========================================================= */
+
+.board-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        40px
+        repeat(12, 40px)
+        55px;
+
+    grid-template-rows:
+        repeat(3, 40px)
+        40px
+        40px;
+
+    pointer-events: none;
+
+    z-index: 10;
+}
+
+
+/* Puntos */
+
+.bet-spot {
+    position: absolute;
+
+    pointer-events: auto;
+
+    cursor: pointer;
+
+    background: transparent;
+
+    border-radius: 50%;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+}
+
+.bet-spot:hover {
+    background: rgba(212,175,55,.4);
+}
+
+
+/* Splits horizontales */
+
+.bet-spot.split-h {
+    width: 36px;
+    height: 10px;
+
+    transform: translate(2px,-5px);
+}
+
+
+/* Splits verticales */
+
+.bet-spot.split-v {
+    width: 10px;
+    height: 36px;
+
+    transform: translate(-5px,2px);
+}
+
+
+/* Corners */
+
+.bet-spot.corner {
+    width: 12px;
+    height: 12px;
+
+    transform: translate(-6px,-6px);
+}
+
+
+/* Zero */
+
+.bet-spot.zero-split {
+    width: 10px;
+    height: 36px;
+
+    transform: translate(-5px,2px);
+}
+
+.bet-spot.zero-corner {
+    width: 12px;
+    height: 12px;
+
+    transform: translate(-6px,-6px);
+}
+
+
+/* Six line */
+
+.bet-spot.six-line {
+    width: 36px;
+    height: 10px;
+
+    transform: translate(2px,-5px);
+
+    z-index: 20;
+}
+
+.bet-spot.six-line-edge {
+    width: 20px;
+    height: 12px;
+
+    transform: translate(-10px,-6px);
+
+    z-index: 30;
+}
+
+
+/* =========================================================
+   FICHAS SOBRE EL TABLERO
+========================================================= */
+
+.bet-chip {
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffe99a 0%,
+            #d4af37 65%,
+            #a47d16 100%
+        );
+
+    border: 2px dashed white;
+
+    border-radius: 50%;
+
+    font-size: .55rem;
+
+    color: #0d1b2a;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    transform: translate(-50%,-50%);
+
+    top: 50%;
+    left: 50%;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,.5);
+}
+
+
+/* Ficha en docenas */
+
+.cell.dozen-label .bet-chip {
+    top: 28%;
+    left: 80%;
+
+    transform: translate(-50%,-50%);
+
+    width: 20px;
+    height: 20px;
+
+    font-size: .5rem;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   PANEL DE CONTROL
+========================================================= */
+
+.control-panel {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    background: rgba(13,27,42,.95);
+
+    padding: 14px 18px;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(116,172,223,.3);
+}
+
+
+/* =========================================================
+   USUARIO
+========================================================= */
+
+.user-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+.avatar-container {
+    flex-shrink: 0;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: 2px solid #74acdf;
+
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: .95rem;
+}
+
+.user-balance {
+    font-size: .85rem;
+    color: #d4af37;
+}
+
+
+/* =========================================================
+   FICHAS
+========================================================= */
+
+.chips-selector {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chip {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 60%,
+            #e0e0e0 100%
+        );
+
+    border: 3px dashed #74acdf;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: .75rem;
+    font-weight: bold;
+
+    color: #0d1b2a;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.chip:hover {
+    transform: scale(1.1);
+}
+
+.chip.selected {
+    border: 3px solid #d4af37;
+
+    box-shadow:
+        0 0 12px rgba(212,175,55,.7);
+
+    transform: scale(1.12);
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.action-buttons {
+    display: flex;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+.btn-control {
+    padding: 10px 18px;
+
+    background: #1b263b;
+
+    color: #74acdf;
+
+    border: 1px solid #74acdf;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+    font-size: .85rem;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .15s ease;
+}
+
+.btn-control:hover {
+    background: #74acdf;
+    color: #0d1b2a;
+}
+
+.btn-control:active {
+    transform: scale(.96);
+}
+
+.btn-control.primary {
+    background: #d4af37;
+
+    color: #0d1b2a;
+
+    border: none;
+
+    box-shadow:
+        0 4px 12px rgba(212,175,55,.2);
+}
+
+.btn-control.primary:hover {
+    background: #e5c45a;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .casino-table-container {
+        padding: 16px;
+    }
+
+    .casino-table {
+        gap: 20px;
+    }
+
+    .roulette-wheel {
+        width: 260px;
+        height: 260px;
+    }
+
+    .wheel-container {
+        width: 260px;
+    }
+
+    .control-panel {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 8px;
+        align-items: stretch;
+    }
+
+    h1 {
+        font-size: 1.15rem;
+        letter-spacing: 2px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .casino-table-container {
+        width: 100%;
+        padding: 10px;
+        border-width: 1px;
+        border-radius: 16px;
+        gap: 12px;
+    }
+
+    /* =========================================
+       RULETA ARRIBA
+    ========================================= */
+
+    .casino-table {
+        flex-direction: column;
+        gap: 14px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .wheel-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    #anuncioResultado {
+        width: 100% !important;
+        margin-bottom: 10px !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        max-height: 48px !important;
+        font-size: .7rem !important;
+    }
+
+    .roulette-wheel {
+        width: 240px;
+        height: 240px;
+        border-width: 6px;
+    }
+
+    .wheel-center {
+        width: 55px;
+        height: 55px;
+        font-size: .7rem;
+    }
+
+    .wheel-number {
+        width: 20px;
+        height: 20px;
+        font-size: .52rem;
+    }
+
+
+    /* =========================================
+       TABLERO MOBILE
+    ========================================= */
+
+    .board-container {
+        width: 100%;
+        overflow: visible;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .board-grid {
+
+        /*
+         * Las 14 columnas siguen existiendo.
+         * Solamente las hacemos más pequeñas.
+         */
+
+        grid-template-columns:
+            24px
+            repeat(12, 24px)
+            30px;
+
+        grid-template-rows:
+            repeat(3, 27px)
+            27px
+            27px;
+
+        gap: 1px;
+
+        width: max-content;
+        max-width: none;
+
+        transform: none;
+    }
+
+
+    /* =========================================
+       CELDAS
+    ========================================= */
+
+    .cell {
+        font-size: .55rem;
+        min-width: 0;
+    }
+
+    .cell.col-label,
+    .cell.outside-label,
+    .cell.dozen-label {
+        font-size: .47rem;
+    }
+
+
+    /* =========================================
+       OVERLAY
+       
+       DEBE COINCIDIR EXACTAMENTE
+       CON EL TAMAÑO DEL TABLERO
+    ========================================= */
+
+    .board-overlay {
+
+        grid-template-columns:
+            24px
+            repeat(12, 24px)
+            30px;
+
+        grid-template-rows:
+            repeat(3, 27px)
+            27px
+            27px;
+    }
+
+
+    /* =========================================
+       SPLITS
+    ========================================= */
+
+    .bet-spot.split-h {
+        width: 22px;
+        height: 7px;
+        transform: translate(1px, -3px);
+    }
+
+    .bet-spot.split-v {
+        width: 7px;
+        height: 24px;
+        transform: translate(-3px, 1px);
+    }
+
+
+    /* =========================================
+       CORNERS
+    ========================================= */
+
+    .bet-spot.corner {
+        width: 9px;
+        height: 9px;
+        transform: translate(-4px, -4px);
+    }
+
+
+    /* =========================================
+       ZERO
+    ========================================= */
+
+    .bet-spot.zero-split {
+        width: 7px;
+        height: 24px;
+        transform: translate(-3px, 1px);
+    }
+
+    .bet-spot.zero-corner {
+        width: 9px;
+        height: 9px;
+        transform: translate(-4px, -4px);
+    }
+
+
+    /* =========================================
+       SIX LINE
+    ========================================= */
+
+    .bet-spot.six-line {
+        width: 22px;
+        height: 7px;
+        transform: translate(1px, -3px);
+    }
+
+    .bet-spot.six-line-edge {
+        width: 15px;
+        height: 9px;
+        transform: translate(-7px, -4px);
+    }
+
+
+    /* =========================================
+       FICHAS
+    ========================================= */
+
+    .bet-chip {
+        width: 17px;
+        height: 17px;
+
+        font-size: .42rem;
+
+        border-width: 1px;
+    }
+
+    .cell.dozen-label .bet-chip {
+        width: 16px;
+        height: 16px;
+        font-size: .4rem;
+    }
+
+
+    /* =========================================
+       PANEL INFERIOR
+    ========================================= */
+
+    .control-panel {
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+
+        padding: 12px;
+    }
+
+    .user-profile {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .user-avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    /* =========================================
+       FICHAS
+    ========================================= */
+
+    .chips-selector {
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+
+        gap: 7px;
+    }
+
+    .chip {
+        width: 40px;
+        height: 40px;
+        font-size: .68rem;
+    }
+
+
+    /* =========================================
+       BOTONES
+    ========================================= */
+
+    .action-buttons {
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1.5fr;
+
+        gap: 8px;
+    }
+
+    .btn-control {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 6px;
+        font-size: .78rem;
+    }
+}
+
+
+/* =========================================================
+   MOBILE MUY PEQUEÑO
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .casino-table-container {
+        padding: 8px;
+    }
+
+    .roulette-wheel {
+        width: 225px;
+        height: 225px;
+    }
+
+    .wheel-container {
+        width: 100%;
+    }
+
+    .wheel-center {
+        width: 52px;
+        height: 52px;
+    }
+
+    .chips-selector {
+        gap: 5px;
+    }
+
+    .chip {
+        width: 38px;
+        height: 38px;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
